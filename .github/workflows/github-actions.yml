@@ -1,0 +1,54 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "release/dev", "release/live" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:alpine3.19
+    env:
+      ENVIRONMENT: ${{ github.ref == 'refs/heads/release/live' && 'live' || 'dev' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cacheing
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-key: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: |
+          echo "Building for [${ENVIRONMENT}] mode"
+          npm run build:${ENVIRONMENT}
+
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deployment
+        run: |
+          BUCKET_NAME=${{ vars.DEPLOY_BUCKET_NAME }}
+          CLOUDFRONT_DISTRIBUTION_ID=${{ vars.CLOUDFRONT_DISTRIBUTION_ID}}
+          aws s3 sync dist/ s3://$BUCKET_NAME
+          aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+        
+    
