@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "start:dev": "vite --mode dev",
-    "start:live": "vite --mode live",
+    "start:prod": "vite --mode dev",
     "build": "tsc && vite build",
     "build:dev": "tsc && vite build --mode dev",
     "build:live": "tsc && vite build --mode live",
