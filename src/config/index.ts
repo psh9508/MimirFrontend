@@ -1,7 +1,7 @@
-import devConfig from './config-dev';
-import liveConfig from './config';
+import localConfig from './config';
+import prodConfig from './config-prod';
 
-const isDev = import.meta.env.MODE === 'dev';
+const isProduction = import.meta.env.MODE === 'dev' || import.meta.env.MODE === 'live';
 
-export const API_CONFIG = isDev ? devConfig : liveConfig;
-export default isDev ? devConfig : liveConfig;
+export const API_CONFIG = isProduction ? prodConfig : localConfig;
+export default isProduction ? prodConfig : localConfig;
