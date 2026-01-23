@@ -71,6 +71,18 @@ function App() {
   return (
     <AuthProvider>
       <div className="App">
+        {/* Background clouds */}
+        <div className="cloud-background">
+          <div className="bg-cloud bg-cloud-1"></div>
+          <div className="bg-cloud bg-cloud-2"></div>
+          <div className="bg-cloud bg-cloud-3"></div>
+          <div className="bg-cloud bg-cloud-4"></div>
+          <div className="bg-cloud bg-cloud-5"></div>
+          <div className="bg-cloud bg-cloud-6"></div>
+          <div className="bg-cloud bg-cloud-7"></div>
+          <div className="bg-cloud bg-cloud-8"></div>
+          <div className="bg-cloud bg-cloud-9"></div>
+        </div>
         <AppContent />
       </div>
     </AuthProvider>

@@ -80,51 +80,95 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin }) => {
   if (success) {
     return (
       <div className="login-container">
-        <div className="mimir-header">
-          <div className="mimir-icon">
-            ✅
+        <div className="boarding-cutout-left"></div>
+        <div className="boarding-cutout-right"></div>
+
+        <div className="sky-high-header">
+          <div className="sky-high-icon">
+            🎉
           </div>
-          <h1 className="mimir-title">Success!</h1>
-          <p className="mimir-subtitle">Account created successfully</p>
+          <h1 className="sky-high-title">WELCOME</h1>
+          <p className="sky-high-subtitle">Boarding Confirmed</p>
         </div>
 
-        <div className="success-message">
-          <p>Your account has been created successfully!</p>
-          <p>You can now sign in with your credentials.</p>
+        <div className="flight-info">
+          <div className="departure">
+            <div className="city-code">REG</div>
+            <div className="city-name">Complete</div>
+          </div>
+          <div className="arrival">
+            <div className="city-code">SKY</div>
+            <div className="city-name">Ready</div>
+          </div>
         </div>
 
-        <button 
-          type="button" 
-          className="login-button"
-          onClick={onSwitchToLogin}
-        >
-          Go to Login
-        </button>
+        <div className="success-message" style={{ padding: '0 2rem', textAlign: 'center', color: '#64748b' }}>
+          <p style={{ marginBottom: '0.5rem' }}>Your crew account has been created!</p>
+          <p>Please sign in to access your dashboard.</p>
+        </div>
+
+        <div style={{ padding: '1rem 2rem 0' }}>
+          <button
+            type="button"
+            className="login-button"
+            onClick={onSwitchToLogin}
+          >
+            Proceed to Gate
+          </button>
+        </div>
+
+        <div className="barcode-decoration">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="login-container">
-      <div className="mimir-header">
-        <div className="mimir-icon">
-          🧙‍♂️
+      {/* Boarding pass cutouts */}
+      <div className="boarding-cutout-left"></div>
+      <div className="boarding-cutout-right"></div>
+
+      <div className="sky-high-header">
+        <div className="floating-clouds">
+          <span className="cloud cloud-1">☁️</span>
+          <span className="cloud cloud-2">☁️</span>
+          <span className="cloud cloud-3">☁️</span>
         </div>
-        <h1 className="mimir-title">MIMIR</h1>
-        <p className="mimir-subtitle">Join the realm of wisdom</p>
+        <div className="sky-high-icon">
+          ✈️
+        </div>
+        <h1 className="sky-high-title">SKY HIGH</h1>
+        <p className="sky-high-subtitle">New Crew Registration</p>
+      </div>
+
+      {/* Flight Info Section */}
+      <div className="flight-info">
+        <div className="departure">
+          <div className="city-code">NEW</div>
+          <div className="city-name">Member</div>
+        </div>
+        <div className="arrival">
+          <div className="city-code">CREW</div>
+          <div className="city-name">Status</div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email" className="form-label">
-            Email
+            Crew Email
           </label>
           <input
             type="email"
             id="email"
             name="email"
             className="form-input"
-            placeholder="Enter your email"
+            placeholder="crew@airline.com"
             value={formData.email}
             onChange={handleInputChange}
             disabled={loading || localLoading}
@@ -147,7 +191,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin }) => {
             id="password"
             name="password"
             className="form-input"
-            placeholder="Enter your password"
+            placeholder="Create your password"
             value={formData.password}
             onChange={handleInputChange}
             disabled={loading || localLoading}
@@ -174,19 +218,27 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin }) => {
 
         {localError && <div className="error-message">{localError}</div>}
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="login-button"
           disabled={loading || localLoading}
         >
-          {localLoading ? 'Creating account...' : 'Create Account'}
+          {localLoading ? 'Processing...' : 'Join Crew'}
         </button>
       </form>
 
+      {/* Barcode decoration */}
+      <div className="barcode-decoration">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
       <div className="signup-link">
-        <span>Already have an account? </span>
-        <button 
-          type="button" 
+        <span>Already a crew member? </span>
+        <button
+          type="button"
           className="link-button"
           onClick={onSwitchToLogin}
         >

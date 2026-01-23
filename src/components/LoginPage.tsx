@@ -30,12 +30,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
     if (error) setLocalError('');
   };
 
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLocalError('');
-    
+
     if (!formData.login_id || !formData.password) {
       setLocalError('Please enter both email and password.');
+      return;
+    }
+
+    if (!isValidEmail(formData.login_id)) {
+      setLocalError('Please enter a valid email address.');
       return;
     }
 
@@ -56,35 +66,51 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
 
   return (
     <div className="login-container">
-      <div className="mimir-header">
-        <div className="mimir-icon">
-          🧙‍♂️
+      {/* Boarding pass cutouts */}
+      <div className="boarding-cutout-left"></div>
+      <div className="boarding-cutout-right"></div>
+
+      {/* Header - Blue top section */}
+      <div className="sky-high-header">
+        <div className="floating-clouds">
+          <span className="cloud cloud-1">☁️</span>
+          <span className="cloud cloud-2">☁️</span>
+          <span className="cloud cloud-3">☁️</span>
         </div>
-        <h1 className="mimir-title">MIMIR</h1>
-        <p className="mimir-subtitle">The path to the god of wisdom</p>
+        <div className="sky-high-icon">
+          ✈️
+        </div>
+        <h1 className="sky-high-title">SKY HIGH</h1>
+        <p className="sky-high-subtitle">Boarding Pass</p>
+      </div>
+
+      {/* Flight Info Section */}
+      <div className="flight-info">
+        <div className="departure">
+          <div className="city-code">YOU</div>
+          <div className="city-name">Current</div>
+        </div>
+        <div className="arrival">
+          <div className="city-code">SKY</div>
+          <div className="city-name">Dashboard</div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="login_id" className="form-label">
-            Email
+            Passenger Email
           </label>
           <input
-            type="email"
+            type="text"
             id="login_id"
             name="login_id"
             className="form-input"
-            placeholder="Enter your email"
+            placeholder="crew@airline.com"
             value={formData.login_id}
             onChange={handleInputChange}
             disabled={loading}
-            title="Please enter a valid email address"
-            onInvalid={(e) => {
-              e.currentTarget.setCustomValidity('Please enter a valid email address');
-            }}
-            onInput={(e) => {
-              e.currentTarget.setCustomValidity('');
-            }}
+            autoComplete="email"
           />
         </div>
 
@@ -104,25 +130,42 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
           />
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {/* Status indicator */}
+        <div className={`status-indicator ${error ? 'status-error' : loading ? 'status-loading' : 'status-ready'}`}>
+          {error ? (
+            <><span className="status-icon">⚠</span> {error}</>
+          ) : loading ? (
+            <><span className="status-icon flying">✈</span> Preparing for departure...</>
+          ) : (
+            <><span className="status-icon">✓</span> Ready for boarding</>
+          )}
+        </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="login-button"
           disabled={loading}
         >
-          {loading ? 'Seeking wisdom...' : 'Enter Mimir'}
+          {loading ? 'Taking off...' : 'Board Now'}
         </button>
       </form>
 
+      {/* Barcode decoration */}
+      <div className="barcode-decoration">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
       <div className="signup-link">
-        <span>Don't have an account? </span>
-        <button 
-          type="button" 
+        <span>New crew member? </span>
+        <button
+          type="button"
           className="link-button"
           onClick={onSwitchToSignup}
         >
-          Sign Up
+          Register Here
         </button>
       </div>
     </div>

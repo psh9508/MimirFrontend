@@ -159,20 +159,34 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({
 
   return (
     <div className="login-container">
-      <div className="mimir-header">
-        <div className="mimir-icon">
+      <div className="boarding-cutout-left"></div>
+      <div className="boarding-cutout-right"></div>
+
+      <div className="sky-high-header">
+        <div className="sky-high-icon">
           📧
         </div>
-        <h1 className="mimir-title">Email Verification</h1>
-        <p className="mimir-subtitle">Enter the 6-digit code sent to your email</p>
+        <h1 className="sky-high-title">VERIFY</h1>
+        <p className="sky-high-subtitle">Security Check</p>
       </div>
 
-      <div className="verification-info">
-        <p>We sent a verification code to:</p>
+      <div className="flight-info">
+        <div className="departure">
+          <div className="city-code">CODE</div>
+          <div className="city-name">Pending</div>
+        </div>
+        <div className="arrival">
+          <div className="city-code">OK</div>
+          <div className="city-name">Verified</div>
+        </div>
+      </div>
+
+      <div className="verification-info" style={{ padding: '0 2rem' }}>
+        <p>Verification code sent to:</p>
         <strong>{userEmail}</strong>
       </div>
 
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} style={{ padding: '0 2rem' }}>
         <div className="verification-inputs">
           {verificationCode.map((digit, index) => (
             <input
@@ -203,8 +217,8 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({
             <div className="expired-content">
               <h3 className="expired-title">Code Expired</h3>
               <p className="expired-description">Your verification code has timed out</p>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="resend-button-primary"
                 onClick={handleResendCode}
                 disabled={resendLoading}
@@ -225,39 +239,47 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({
           </div>
         )}
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="login-button"
           disabled={loading || verificationCode.some(digit => !digit)}
         >
-          {loading ? 'Verifying...' : 'Verify Email'}
+          {loading ? 'Verifying...' : 'Confirm Code'}
         </button>
       </form>
 
-      <div className="verification-actions">
+      {/* Barcode decoration */}
+      <div className="barcode-decoration">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div className="verification-actions" style={{ padding: '0 2rem 1.5rem' }}>
         {!isCodeExpired && (
           <div className="resend-section">
             <span>Didn't receive the code? </span>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="link-button"
               onClick={handleResendCode}
               disabled={resendLoading || resendCooldown > 0}
             >
-              {resendLoading ? 'Sending...' : 
-               resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 
+              {resendLoading ? 'Sending...' :
+               resendCooldown > 0 ? `Resend in ${resendCooldown}s` :
                'Resend Code'}
             </button>
           </div>
         )}
 
         <div className="back-to-login">
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="link-button"
             onClick={onBackToLogin}
           >
-            ← Login with Different Email
+            ← Use Different Email
           </button>
         </div>
       </div>
