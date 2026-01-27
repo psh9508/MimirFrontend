@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface LoginFormData {
@@ -18,8 +18,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
     password: ''
   });
   const [localError, setLocalError] = useState<string>('');
+  const [isAscending, setIsAscending] = useState<boolean>(false);
   
   const error = authError || localError;
+
+  useEffect(() => {
+    if (isAscending) {
+      document.querySelector('.cloud-background')?.classList.add('ascending');
+      const timer = setTimeout(() => {
+        document.querySelector('.cloud-background')?.classList.remove('ascending');
+        onLoginSuccess();
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [isAscending, onLoginSuccess]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,7 +64,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
     try {
       await login(formData);
       console.log('Login successful');
-      onLoginSuccess(); // Navigate to main page
+      setIsAscending(true);
     } catch (err: any) {
       console.error('Login failed:', err);
       // 403 에러 (이메일 인증 필요)인 경우 AuthContext에서 needsVerification을 설정하므로
@@ -65,7 +77,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
   };
 
   return (
-    <div className="login-container">
+    <div className={`login-container ${isAscending ? 'ascending' : ''}`}>
       {/* Boarding pass cutouts */}
       <div className="boarding-cutout-left"></div>
       <div className="boarding-cutout-right"></div>

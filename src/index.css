@@ -1092,3 +1092,32 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
 }
+
+/* Login Success Animation */
+.login-container.ascending {
+  animation: gentleAscend 0.8s ease-out forwards;
+}
+
+@keyframes gentleAscend {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+}
+
+.cloud-background.ascending {
+  animation: fadeToWhite 0.8s ease-out forwards;
+}
+
+@keyframes fadeToWhite {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
