@@ -3,9 +3,10 @@ import authService from '../services/authService';
 
 interface MainPageProps {
   onLogout: () => void;
+  onGoToSchedule: () => void;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ onLogout }) => {
+const MainPage: React.FC<MainPageProps> = ({ onLogout, onGoToSchedule }) => {
   const user = authService.getUser();
 
   const handleLogout = () => {
@@ -95,7 +96,9 @@ const MainPage: React.FC<MainPageProps> = ({ onLogout }) => {
         gap: '1.5rem',
         marginBottom: '2rem'
       }}>
-        <div style={{
+        <div
+          onClick={onGoToSchedule}
+          style={{
           background: 'rgba(255, 255, 255, 0.9)',
           border: '2px solid rgba(74, 144, 217, 0.2)',
           borderRadius: '16px',

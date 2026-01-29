@@ -4,10 +4,11 @@ import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import EmailVerificationPage from './components/EmailVerificationPage';
 import MainPage from './components/MainPage';
+import SchedulePage from './components/SchedulePage';
 import authService from './services/authService';
 import './index.css';
 
-type PageType = 'login' | 'signup' | 'verification' | 'main';
+type PageType = 'login' | 'signup' | 'verification' | 'main' | 'schedule';
 
 const AppContent: React.FC = () => {
   const { needsVerification, verificationEmail, verificationUserId, clearVerification } = useAuth();
@@ -42,6 +43,14 @@ const AppContent: React.FC = () => {
     setCurrentPage('login');
   };
 
+  const handleGoToSchedule = () => {
+    setCurrentPage('schedule');
+  };
+
+  const handleBackToMain = () => {
+    setCurrentPage('main');
+  };
+
   // Show verification page if needed
   if (needsVerification && verificationEmail && verificationUserId) {
     return (
@@ -54,9 +63,14 @@ const AppContent: React.FC = () => {
     );
   }
 
+  // Show schedule page
+  if (currentPage === 'schedule') {
+    return <SchedulePage onBack={handleBackToMain} />;
+  }
+
   // Show main page if authenticated
   if (currentPage === 'main') {
-    return <MainPage onLogout={handleLogout} />;
+    return <MainPage onLogout={handleLogout} onGoToSchedule={handleGoToSchedule} />;
   }
 
   // Show signup or login page
